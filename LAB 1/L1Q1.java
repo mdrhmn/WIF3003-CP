@@ -1,4 +1,4 @@
-public class L1Q1C {
+public class L1Q1 {
     public static void main(String args[]) {
         PrintNumRunnable e1 = new PrintNumRunnable(5);
         Thread t1 = new Thread(e1);
@@ -9,9 +9,9 @@ public class L1Q1C {
         PrintCharRunnable e3 = new PrintCharRunnable('B', 5);
         Thread t3 = new Thread(e3);
 
-        t1.start();
         t2.start();
         t3.start();
+        t1.start();
 
     }
 }
