@@ -1,8 +1,10 @@
+package L2Q3;
+
 import java.util.Random;
 
 public class L2Q3_2 {
     public static void main(String args[]) {
-        
+
         int[] numbers = new int[1000000];
         randomArray(numbers);
         final int NO_OF_THREADS = 2;
@@ -30,24 +32,22 @@ public class L2Q3_2 {
             }
         }
 
-        // int result = Math.max(findMax[0].threadMax, findMax[1].threadMax);
         long estimatedTime = System.nanoTime() - startTime;
         double elapsedTimeInMs = (double) estimatedTime / 1_000_000;
-        System.out.println("Max (using multithreading) = " + result);
+        System.out.println("Max (using multithreading - 2) = " + result);
         System.out.println("Execution time in ms: " + elapsedTimeInMs);
-        // System.out.println("Execution time in ns: " + estimatedTime);
 
-        // long ST_I = System.nanoTime(); 
-        // int max = findLargest(numbers);
-        // long ET_I = System.nanoTime() - ST_I;
-        // double elapsed_I = (double) ET_I / 1_000_000;
-        // System.out.println("Max (using iteration) = " + max);
-        // System.out.println("Execution time in ms: " + elapsed_I);
+        long ST_I = System.nanoTime(); 
+        int max = findLargest(numbers);
+        long ET_I = System.nanoTime() - ST_I;
+        double elapsed_I = (double) ET_I / 1_000_000;
+        System.out.println("Max (using iteration) = " + max);
+        System.out.println("Execution time in ms: " + elapsed_I);
     }
 
     private static void randomArray(int[] arr) {
         int min = 1;
-        int max = 50001;
+        int max = 60001;
         Random random = new Random();
 
         for (int i = 0; i < arr.length; i++) {
@@ -87,10 +87,13 @@ class findLargest implements Runnable {
 
     @Override
     public void run() {
+        // int count = 0;
         for (int i = start; i < end; i++) {
             if (arr[i] > threadMax) {
                 threadMax = arr[i];
             }
+            // count++;
         }
+        // System.out.println(count);
     }
 }

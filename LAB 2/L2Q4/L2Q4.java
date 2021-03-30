@@ -1,3 +1,5 @@
+package L2Q4;
+
 import java.util.Random;
 
 public class L2Q4 {
@@ -26,30 +28,28 @@ public class L2Q4 {
 
         int result = 0;
         for (int i = 0; i < NO_OF_THREADS; i++) {
-            // System.out.println("Thread " + i + " " + findMax[i].threadMax);
+            System.out.println("Thread " + i + " " + findMax[i].threadMax);
             if (result < findMax[i].threadMax) {
                 result = findMax[i].threadMax;
             }
         }
 
-        // int result = Math.max(findMax[0].threadMax, findMax[1].threadMax);
         long estimatedTime = System.nanoTime() - startTime;
         double elapsedTimeInMs = (double) estimatedTime / 1_000_000;
-        System.out.println("Max (using multithreading) = " + result);
+        System.out.println("Max (using multithreading - 4) = " + result);
         System.out.println("Execution time in ms: " + elapsedTimeInMs);
-        // System.out.println("Execution time in ns: " + estimatedTime);
 
-        // long ST_I = System.nanoTime();
-        // int max = findLargest(numbers);
-        // long ET_I = System.nanoTime() - ST_I;
-        // double elapsed_I = (double) ET_I / 1_000_000;
-        // System.out.println("Max (using iteration) = " + max);
-        // System.out.println("Execution time in ms: " + elapsed_I);
+        long ST_I = System.nanoTime();
+        int max = findLargest(numbers);
+        long ET_I = System.nanoTime() - ST_I;
+        double elapsed_I = (double) ET_I / 1_000_000;
+        System.out.println("Max (using iteration) = " + max);
+        System.out.println("Execution time in ms: " + elapsed_I);
     }
 
     private static void randomArray(int[] arr) {
         int min = 1;
-        int max = 50001;
+        int max = 60001;
         Random random = new Random();
 
         for (int i = 0; i < arr.length; i++) {
@@ -89,10 +89,13 @@ class findLargest implements Runnable {
 
     @Override
     public void run() {
+        // int count = 0;
         for (int i = start; i < end; i++) {
             if (arr[i] > threadMax) {
                 threadMax = arr[i];
             }
+            // count++;
         }
+        // System.out.println(count);
     }
 }

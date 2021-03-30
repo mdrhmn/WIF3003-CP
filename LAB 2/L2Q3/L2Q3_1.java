@@ -1,3 +1,4 @@
+package L2Q3;
 import java.util.Random;
 
 public class L2Q3_1 {
@@ -17,7 +18,7 @@ public class L2Q3_1 {
 
     private static void randomArray(int[] arr) {
         int min = 1;
-        int max = 50001;
+        int max = 60001;
         Random random = new Random();
 
         for (int i = 0; i < arr.length; i++) {

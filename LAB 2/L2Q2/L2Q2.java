@@ -1,8 +1,9 @@
+package L2Q2;
 import java.util.Random;
 
 public class L2Q2 {
     public static void main(String args[]) {
-        int[] numbers = new int[10];
+        int[] numbers = new int[1000000];
         randomArray(numbers);
         final int NO_OF_THREADS = 2;
 
@@ -27,13 +28,13 @@ public class L2Q2 {
             }
         }
 
-        System.out.println("Max (using multithreading) = " + result);
+        System.out.println("Max (using multithreading - 2) = " + result);
         System.out.println("Max (using iteration) = " + findLargest(numbers));
     }
 
     private static void randomArray(int[] arr) {
         int min = 1;
-        int max = 50001;
+        int max = 60001;
         Random random = new Random();
 
         for (int i = 0; i < arr.length; i++) {
