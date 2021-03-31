@@ -1,3 +1,5 @@
+package L1Q1;
+
 public class L1Q1 {
     public static void main(String args[]) {
         PrintNumRunnable e1 = new PrintNumRunnable(5);

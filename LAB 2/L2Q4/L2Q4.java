@@ -1,101 +1,139 @@
 package L2Q4;
-
 import java.util.Random;
 
 public class L2Q4 {
+
+    public static final int SIZE = 1000000;
+    public static final int MAX = 60000;
+    public static final int NO_OF_THREADS = 4;
+
     public static void main(String args[]) {
 
-        int[] numbers = new int[1000000];
-        randomArray(numbers);
-        final int NO_OF_THREADS = 4;
+        // Initialise array
+        int[] arr = randomArray(new int[SIZE], MAX);
+        int finalMax;
+        Timer timer = new Timer();
 
-        findLargest[] findMax = new findLargest[NO_OF_THREADS];
-        findMax[0] = new findLargest(numbers, 0, numbers.length / 4);
-        findMax[1] = new findLargest(numbers, numbers.length / 4, (2 * numbers.length)/4);
-        findMax[2] = new findLargest(numbers, (2 * numbers.length)/4, (3 * numbers.length)/4);
-        findMax[3] = new findLargest(numbers, (3 * numbers.length)/4, numbers.length);
+        // Timer start
+        timer.start();
+        findLargestSequential fls = new findLargestSequential(arr);
+        finalMax = fls.getMax();
+        // Timer end
+        timer.end();
 
-        long startTime = System.nanoTime();
+        System.out.println("Largest number from 1 thread: " + finalMax);
+        System.out.println("Duration: " + (double) timer.timeTaken() / 1000000 + " ms\n");
+
+        // Timer start
+        timer.start();
+        findLargestConcurrent[] flc = new findLargestConcurrent[NO_OF_THREADS];
+
+        // Divide array equally among threads and start threads
+        int range = arr.length / NO_OF_THREADS;
+        for (int i = 0; i < NO_OF_THREADS; i++) {
+            int startAt = i * range;
+            int endAt = startAt + range;
+            flc[i] = new findLargestConcurrent(startAt, endAt, arr);
+            flc[i].thread.start();
+        }
 
         for (int i = 0; i < NO_OF_THREADS; i++) {
-            findMax[i].thread.start();
             try {
-                findMax[i].thread.join();
+                flc[i].thread.join();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
 
-        int result = 0;
+        finalMax = flc[0].getMax();
         for (int i = 0; i < NO_OF_THREADS; i++) {
-            System.out.println("Thread " + i + " " + findMax[i].threadMax);
-            if (result < findMax[i].threadMax) {
-                result = findMax[i].threadMax;
-            }
+            // System.out.println("Largest number in thread " + (i + 1) + " = " + flc[i].getMax());
+            if (finalMax < flc[i].getMax())
+                finalMax = flc[i].getMax();
         }
 
-        long estimatedTime = System.nanoTime() - startTime;
-        double elapsedTimeInMs = (double) estimatedTime / 1_000_000;
-        System.out.println("Max (using multithreading - 4) = " + result);
-        System.out.println("Execution time in ms: " + elapsedTimeInMs);
+        // Timer end
+        timer.end();
 
-        long ST_I = System.nanoTime();
-        int max = findLargest(numbers);
-        long ET_I = System.nanoTime() - ST_I;
-        double elapsed_I = (double) ET_I / 1_000_000;
-        System.out.println("Max (using iteration) = " + max);
-        System.out.println("Execution time in ms: " + elapsed_I);
+        System.out.println("Largest number from " + NO_OF_THREADS + " threads: " + finalMax);
+        System.out.println("Duration: " + (double) timer.timeTaken() / 1000000 + " ms\n");
     }
 
-    private static void randomArray(int[] arr) {
-        int min = 1;
-        int max = 60001;
-        Random random = new Random();
-
+    private static int[] randomArray(int[] arr, int max) {
+        Random rand = new Random();
         for (int i = 0; i < arr.length; i++) {
-            arr[i] = random.nextInt(max - min) + min; // generate a random number
+            arr[i] = rand.nextInt(max) + 1;
         }
 
-    }
-
-    private static int findLargest(int arr[]) {
-        // Initialize maximum element
-        int max = arr[0];
-
-        // Traverse array elements from second and
-        // compare every element with current max
-        for (int i = 1; i < arr.length; i++)
-            if (arr[i] > max)
-                max = arr[i];
-
-        return max;
+        return arr;
     }
 
 }
 
-class findLargest implements Runnable {
-    private int start;
-    private int end;
-    private int[] arr;
-    public int threadMax;
+class findLargestConcurrent implements Runnable {
+
+    private int beginAt;
+    private int endAt;
+    private int[] array;
+    public int max;
     public Thread thread;
 
-    public findLargest(int[] arr, int start, int end) {
-        this.start = start;
-        this.end = end;
-        this.arr = arr;
+    public findLargestConcurrent(int beginAt, int endAt, int[] array) {
+        this.beginAt = beginAt;
+        this.endAt = endAt;
+        this.array = array;
         thread = new Thread(this);
     }
 
-    @Override
     public void run() {
-        // int count = 0;
-        for (int i = start; i < end; i++) {
-            if (arr[i] > threadMax) {
-                threadMax = arr[i];
+        max = array[beginAt];
+        for (int i = beginAt; i < endAt; i++) {
+            if (array[i] > max) {
+                max = array[i];
             }
-            // count++;
         }
-        // System.out.println(count);
     }
+
+    public int getMax() {
+        return max;
+    }
+}
+
+class Timer {
+    private long startTime;
+    private long endTime;
+
+    public void start() {
+        startTime = System.nanoTime();
+    }
+
+    public void end() {
+        endTime = System.nanoTime();
+    }
+
+    public long timeTaken() {
+        return endTime - startTime;
+    }
+}
+
+class findLargestSequential {
+    private int[] array;
+
+    public findLargestSequential(int[] array) {
+        this.array = array;
+    }
+
+    public int getMax() {
+        int size = array.length;
+        int max = array[0];
+
+        for (int i = 1; i < size; i++) {
+            if (array[i] > max) {
+                max = array[i];
+            }
+        }
+
+        return max;
+    }
+
 }

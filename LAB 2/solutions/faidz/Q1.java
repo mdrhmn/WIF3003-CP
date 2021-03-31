@@ -1,4 +1,4 @@
-package solutions;
+package solutions.faidz;
 
 import java.util.Random;
 

@@ -1,15 +1,11 @@
 
-package solutions;
+package solutions.faidz;
 
 import java.util.Random;
 
-/**
- * Repeat the Program in (2) but using four threads instead of two. Compare the
- * performance of this modified program with the original program.
- */
 public class Q4 {
     public static void main(String[] args) {
-        int[] num = new int[10];
+        int[] num = new int[1000000];
         Random r = new Random();
         int x;
 
@@ -35,7 +31,7 @@ public class Q4 {
             t[i].start();
         }
 
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 4; i++) {
             try {
                 t[i].join();
             } catch (InterruptedException ie) {
@@ -45,7 +41,7 @@ public class Q4 {
 
         int finalMax = lg[0].getMax();
         for (int i = 0; i < 4; i++) {
-            System.out.println("Largest number in thread " + (i + 1) + " = " + lg[i].getMax());
+            // System.out.println("Largest number in thread " + (i + 1) + " = " + lg[i].getMax());
             if (finalMax < lg[i].getMax())
                 finalMax = lg[i].getMax();
         }
