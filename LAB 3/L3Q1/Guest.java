@@ -1,3 +1,5 @@
+package L3Q1;
+
 public class Guest implements Runnable {
 
     private final String guestName;

@@ -1,3 +1,5 @@
+package L3Q1;
+
 public class CleanerRunnable implements Runnable {
     private final String cleanerName;
     Room room;

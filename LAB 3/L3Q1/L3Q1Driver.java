@@ -1,6 +1,7 @@
+package L3Q1;
 import java.util.ArrayList;
 
-public class L3Driver {
+public class L3Q1Driver {
     public static void main(String args[]) {
         Room r1 = new Room("Room A");
         String[] nameArr = { "C1", "C2", "G1", "G2", "G3", "G4", "G5", "G6", "G7", "G8" };

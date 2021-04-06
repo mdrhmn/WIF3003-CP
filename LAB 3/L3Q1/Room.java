@@ -1,3 +1,5 @@
+package L3Q1;
+
 public class Room {
     private final String roomName;
     private int guestNo;
