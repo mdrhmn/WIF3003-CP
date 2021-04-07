@@ -43,7 +43,7 @@ public class Room {
                     System.out.println(Thread.currentThread().getName() + ":  A cleaner is in room. Cleaner " + cleanerName + " is waiting to enter "
                             + this.roomName);
                 } else if (getGuestNo() > 0) {
-                    System.out.println(Thread.currentThread().getName() + ":  There is guest in room. Cleaner " + cleanerName + " is waiting to enter "
+                    System.out.println(Thread.currentThread().getName() + ":  There is/are " + getGuestNo() + " guest(s) in room. Cleaner " + cleanerName + " is waiting to enter "
                             + this.roomName);
                 }
 
