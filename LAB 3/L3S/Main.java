@@ -57,12 +57,13 @@ class Node<E> {
         try {
             // Checks the value against the desired value
             while (!value.equals(desiredValue)) {
-                System.out.println(Thread.currentThread().getName() + ":    " + value + " does not match " + desiredValue + ". Keep searching...");
+                System.out.println(Thread.currentThread().getName() + ":    " + value + " does not match "
+                        + desiredValue + ". Keep searching...");
 
                 // This will wait until the value changes
                 valueChanged.await();
             }
-            
+
             // When we get here, the value is correct -- Run the task
             isMatch = true;
             task.run();
@@ -73,7 +74,7 @@ class Node<E> {
 
 }
 
-class Operate <E> implements Runnable {
+class Operate<E> implements Runnable {
     private Node<E> node;
     private Integer target;
     private Dummy dummy;
@@ -88,12 +89,13 @@ class Operate <E> implements Runnable {
     public void run() {
         try {
             while (!Thread.currentThread().isInterrupted()) {
-                System.out.println(Thread.currentThread().getName() + ":    Running at Operate - Searching for value " + target);
+                System.out.println(
+                        Thread.currentThread().getName() + ":    Running at Operate - Searching for value " + target);
                 this.node.executeOnValue((E) target, dummy);
             }
 
             // System.out.println(Thread.currentThread().getName() + " has stopped.");
-        
+
         } catch (InterruptedException exception) {
         }
     }
@@ -122,10 +124,10 @@ class Write<E> implements Runnable {
                 this.node.setValue(generateValue());
 
                 Thread.sleep(100);
-                
+
                 if (this.node.isMatch)
                     Thread.currentThread().interrupt();
-                    
+
             } catch (InterruptedException e) {
             }
         }
@@ -135,7 +137,7 @@ class Write<E> implements Runnable {
 }
 
 class Dummy implements Runnable {
-    
+
     public void run() {
         System.out.println("The desired value is found!");
         Thread.currentThread().interrupt();
