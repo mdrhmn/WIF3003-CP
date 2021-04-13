@@ -1,9 +1,10 @@
 package L3Q2;
 
-public class Operate <E> implements Runnable {
+public class Operate<E> implements Runnable {
     private Node<E> node;
     private Integer target;
     private Dummy dummy;
+    // private Runnable dummy;
 
     public Operate(Node<E> node, Integer target, Dummy dummy) {
         this.node = node;
@@ -15,14 +16,21 @@ public class Operate <E> implements Runnable {
     public void run() {
         try {
             while (!Thread.currentThread().isInterrupted()) {
-                System.out.println(Thread.currentThread().getName() + ":    Running at Operate - Searching for value " + target);
+                System.out.println(
+                        Thread.currentThread().getName() + ":    Running at Operate - Searching for value " + target);
                 this.node.executeOnValue((E) target, dummy);
             }
-
             // System.out.println(Thread.currentThread().getName() + " has stopped.");
-        
         } catch (InterruptedException exception) {
         }
+
+        // Lecturer's solution
+        // while (true) {
+        // try {
+        // this.node.executeOnValue((E) target, dummy);
+        // } catch (InterruptedException exception) {
+        // }
+        // }
     }
 
 }

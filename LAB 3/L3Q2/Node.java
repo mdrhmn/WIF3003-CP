@@ -31,15 +31,26 @@ public class Node<E> {
     Condition valueChanged;
     // Flag if desiredValue matches value
     boolean isMatch;
+    // Max number of tasks
+    // final int maxTask = 2;
+    // Number of tasks
+    // int taskCount;
 
     public Node(E value) {
         this.value = value;
         rest = null;
+        // ReentrantLock = lock can be used to lock more than 1 monitor
         lock = new ReentrantLock();
         valueChanged = lock.newCondition();
         isMatch = false;
+        // taskCount = 0;
     }
 
+    public E getValue() {
+        return value;
+    }
+
+    // Producer
     public void setValue(E value) {
         lock.lock();
         try {
@@ -48,25 +59,44 @@ public class Node<E> {
 
             // Let waiting threads that the value has changed
             valueChanged.signalAll();
+            // Thread.sleep(200);
         } finally {
             lock.unlock();
         }
     }
 
+    // Consumer
     public void executeOnValue(E desiredValue, Runnable task) throws InterruptedException {
         lock.lock();
         try {
             // Checks the value against the desired value
             while (!value.equals(desiredValue)) {
-                System.out.println(Thread.currentThread().getName() + ":    " + value + " does not match " + desiredValue + ". Keep searching...");
+                System.out.println(Thread.currentThread().getName() + ":    " + value + " does not match "
+                        + desiredValue + ". Keep searching...");
 
                 // This will wait until the value changes
                 valueChanged.await();
             }
-            
+
             // When we get here, the value is correct -- Run the task
             isMatch = true;
             task.run();
+
+            // Lecturer's solution
+            // Thread t = new Thread(task);
+            // t.start();
+            // taskCount++;
+
+            // try {
+            // t.join();
+            // Thread.sleep(100);
+            // } catch (InterruptedException e) {
+            // }
+
+            // if (taskCount == maxTask) {
+            // System.exit(0);
+            // }
+
         } finally {
             lock.unlock();
         }

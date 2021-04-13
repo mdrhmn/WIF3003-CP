@@ -22,16 +22,21 @@ public class Write<E> implements Runnable {
         while (!Thread.currentThread().isInterrupted()) {
             try {
                 this.node.setValue(generateValue());
-
                 Thread.sleep(100);
-                
                 if (this.node.isMatch)
                     Thread.currentThread().interrupt();
-                    
+
             } catch (InterruptedException e) {
             }
         }
 
         // System.out.println(Thread.currentThread().getName() + " has stopped.");
+
+        // Lecturer's solution
+        // Random rnd = new Random();
+        // while (true) {
+        // node.setValue(x);
+        // x = rnd.nextInt(5);
+        // }
     }
 }
