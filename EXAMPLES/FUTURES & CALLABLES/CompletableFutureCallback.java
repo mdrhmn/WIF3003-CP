@@ -16,7 +16,7 @@ import java.util.concurrent.ExecutionException;
 public class CompletableFutureCallback {
 
     public static void main(String[] args) {
-        long started = System.currentTimeMillis();
+        // long started = System.currentTimeMillis();
 
         CompletableFuture<String> data = createCompletableFuture()
                 .thenApply((Integer count) -> {

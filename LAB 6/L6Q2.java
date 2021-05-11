@@ -1,13 +1,22 @@
-
-// Fig. 23.31: FibonacciDemo.java
-// Fibonacci calculations performed synchronously and asynchronously
+import java.time.Instant;
 import java.time.Duration;
 import java.text.NumberFormat;
-import java.time.Instant;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-// class that stores two Instants in time
+/**
+ * QUESTION 2:
+ * 
+ * Write a program that computes 2 Fibonacci values, one using sequential
+ * calculation (e.g. recursion) and another using asynchronous task with
+ * CompletableFuture. Compare the time taken for these two calculations
+ * (recursion vs asynchronous).
+ */
+
+/**
+ * A class that stores two Instants in time and contains a method to calculate
+ * total time in seconds.
+ */
 class Timer {
     public Instant start;
     public Instant end;
@@ -19,6 +28,10 @@ class Timer {
 }
 
 public class L6Q2 {
+
+    /**
+     * Main method
+     */
     public static void main(String[] args) throws InterruptedException, ExecutionException {
 
         // 2 Fibonacci numbers
@@ -58,57 +71,69 @@ public class L6Q2 {
         System.out.printf("\nRecursive calculations took %s" + " more time than the asynchronous ones\n", percentage);
     }
 
-    // Executes function fibonacci asynchronously
+    /**
+     * A method to start the Fibonacci calculation and time measurement. Returns a
+     * Timer object which contains the elapsed time of calculation.
+     * 
+     * @param n the nth Fibonacci number to calculate
+     */
     private static Timer startFibonacci(int n) {
         // Create a Timer object to store times
         Timer Timer = new Timer();
         System.out.printf("  Calculating fibonacci(%d)%n", n);
+
+        // Start time
         Timer.start = Instant.now();
-        long fibonacciValue = fibonacci(n);
+        long fibonacciValue = fiboRecur(n);
+        // End time
         Timer.end = Instant.now();
+
         displayResult(n, fibonacciValue, Timer);
         return Timer;
     }
 
-    // Fibonacci (Recursive method)
-    private static long fibonacci(long n) {
+    /**
+     * A recursive method to calculate the nth Fibonacci number.
+     * 
+     * @param n the nth Fibonacci number to calculate
+     */
+    private static long fiboRecur(long n) {
         if (n == 0 || n == 1) {
             return n;
         } else {
-            return fibonacci(n - 1) + fibonacci(n - 2);
+            return fiboRecur(n - 1) + fiboRecur(n - 2);
         }
     }
 
-    // Display fibonacci calculation result and total calculation time
-    private static void displayResult(int n, long value, Timer Timer) {
+    /**
+     * A void method to display the results of the Fibonacci calculation.
+     * 
+     * @param n     the nth Fibonacci number to calculate
+     * @param value the result of the nth Fibonacci number calculation
+     * @param Timer Timer object containing elapsed time in seconds
+     */
+    private static void displayResult(int n, long value, Timer elapsedTime) {
         System.out.printf("  fibonacci(%d) = %d%n", n, value);
-        System.out.printf("  Calculation time for fibonacci(%d) = %.3f seconds%n", n, Timer.timeInSeconds());
+        System.out.printf("  Calculation time for fibonacci(%d) = %.3f seconds%n", n, elapsedTime.timeInSeconds());
     }
 
-    // Display fibonacci calculation result and total calculation time
+    /**
+     * A method to combine the elapsed time of calculation of 2 Fibonacci values.
+     * Returns the total elapsed time in seconds.
+     * 
+     * @param result1 elapsed time of 1st Fibonacci value
+     * @param result2 elapsed time of 2nd Fibonacci value
+     */
     private static double calculateTime(Timer result1, Timer result2) {
 
         Timer bothThreads = new Timer();
 
-        // Determine earlier start time
+        // Determine earlier start time using ternary operator
         bothThreads.start = result1.start.compareTo(result2.start) < 0 ? result1.start : result2.start;
 
-        // Determine later end time
+        // Determine later end time using ternary operator
         bothThreads.end = result1.end.compareTo(result2.end) > 0 ? result1.end : result2.end;
 
         return bothThreads.timeInSeconds();
     }
 }
-
-/**************************************************************************
- * (C) Copyright 1992-2015 by Deitel & Associates, Inc. and * Pearson Education,
- * Inc. All Rights Reserved. * * DISCLAIMER: The authors and publisher of this
- * book have used their * best efforts in preparing the book. These efforts
- * include the * development, research, and testing of the theories and programs
- * * to determine their effectiveness. The authors and publisher make * no
- * warranty of any kind, expressed or implied, with regard to these * programs
- * or to the documentation contained in these books. The authors * and publisher
- * shall not be liable in any event for incidental or * consequential damages in
- * connection with, or arising out of, the * furnishing, performance, or use of
- * these programs. *
- *************************************************************************/

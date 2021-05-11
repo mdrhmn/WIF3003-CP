@@ -1,7 +1,7 @@
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-public class L6Q1 {
+public class SampleCompletableFuture {
     public static void main(String[] args) {
 
         /*
