@@ -19,7 +19,7 @@ import java.util.Scanner;
 
 public class L6Q1 {
 
-    private final static int MAX_INT = 111000;
+    private final static int MAX_INT = 111111;
 
     /**
      * A class to represent the result from one sub-task. The result contains the
