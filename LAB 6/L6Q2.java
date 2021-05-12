@@ -51,7 +51,12 @@ public class L6Q2 {
         /*
          * Run a task asynchronously on the default thread pool of Java and return the
          * result using supplyAsync() and lambda expression. The supplyAsync() method
-         * returns CompletableFuture on which we can apply other methods
+         * returns CompletableFuture on which we can apply to other methods for
+         * preprocessing
+         * 
+         * supplyAsync uses Fork-Join common pool and takes advantage of multicore.
+         * While waiting for the result of one of the asynchronous tasks, you can run
+         * the other.
          */
         CompletableFuture<Timer> futureResult1 = CompletableFuture.supplyAsync(() -> startFibonacci(FIBO_1));
         CompletableFuture<Timer> futureResult2 = CompletableFuture.supplyAsync(() -> startFibonacci(FIBO_2));
@@ -127,6 +132,11 @@ public class L6Q2 {
     private static double calculateTime(Timer result1, Timer result2) {
 
         Timer bothThreads = new Timer();
+
+        /*
+         * We need to compare the start and end times because running asynchronous tasks
+         * can have overlapping times
+         */
 
         // Determine earlier start time using ternary operator
         bothThreads.start = result1.start.compareTo(result2.start) < 0 ? result1.start : result2.start;

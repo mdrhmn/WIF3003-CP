@@ -1,7 +1,10 @@
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Callable;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.util.function.Supplier;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -52,14 +55,37 @@ public class L6Q1 {
          * The task is executed when the call() method is called, returning a Result
          * object
          */
-        public Result call() {
+
+        //  Without CompletableFuture
+        // public Result call() {
+        //     int maxDivisors = 0;
+        //     int whichInt = 0;
+
+        //     for (int i = min; i < max; i++) {
+        //         int divisors = countDivisors(i);
+        //         if (divisors > maxDivisors) {
+        //             maxDivisors = divisors;
+        //             whichInt = i;
+        //         }
+        //     }
+
+        //     return new Result(maxDivisors, whichInt);
+        // }
+
+        // With CompletableFuture
+        public Result call() throws InterruptedException, ExecutionException {
             int maxDivisors = 0;
             int whichInt = 0;
 
             for (int i = min; i < max; i++) {
-                int divisors = countDivisors(i);
-                if (divisors > maxDivisors) {
-                    maxDivisors = divisors;
+                final int N = i;
+                CompletableFuture<Integer> completableFuture = CompletableFuture.supplyAsync((Supplier<Integer>) () -> {
+                    int divisors = countDivisors(N);
+                    return divisors;
+                });
+
+                if (completableFuture.get() > maxDivisors) {
+                    maxDivisors = completableFuture.get();
                     whichInt = i;
                 }
             }
@@ -70,10 +96,10 @@ public class L6Q1 {
 
     /**
      * A method to find the integer in the range of 1 and MAX_INT (111111) that has
-     * the largest number of divisors by dividing the work into sub-tasks that will be
-     * submitted to an ExecutorService. The Futures that are returned when the sub-tasks
-     * are submitted are placed into an ArrayList. The results from those Futures
-     * are combined to produce the final output.
+     * the largest number of divisors by dividing the work into sub-tasks that will
+     * be submitted to an ExecutorService. The Futures that are returned when the
+     * sub-tasks are submitted are placed into an ArrayList. The results from those
+     * Futures are combined to produce the final output.
      * 
      * @param numberOfThreads the number of threads to be used by the executor
      */
@@ -161,19 +187,14 @@ public class L6Q1 {
     }
 
     /**
-     * Main method to ask for number of threads from 1-10.
+     * Main method to ask for number of threads
      */
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int numberOfThreads = 0;
 
-        while (numberOfThreads < 1 || numberOfThreads > 10) {
-            System.out.print("Enter number of threads (1-10): ");
-            numberOfThreads = scanner.nextInt();
-            if (numberOfThreads < 1 || numberOfThreads > 10)
-                System.out.println("Please enter a number from 1 to 10!");
-        }
-
+        System.out.print("Enter number of threads: ");
+        numberOfThreads = scanner.nextInt();
         // Use Executor to generate threads
         countDivisorsExecutor(numberOfThreads);
         scanner.close();
