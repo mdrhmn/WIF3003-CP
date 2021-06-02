@@ -35,6 +35,14 @@ class Employee {
         this.age = age;
     }
 
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
     @Override
     public String toString() {
         return name;
@@ -60,9 +68,10 @@ public class L7Q1 {
         // Solution 1: Filter gender and then age
         System.out.println("Solution 1: Filter gender and then age");
         Instant start = Instant.now();
+        // Stream is useful when dealing with large amount of data without modifying it
         Employees.stream()
                 // Filter all Female employees
-                .filter(e -> e.gender.startsWith("F"))
+                .filter(e -> e.gender.equalsIgnoreCase("F"))
                 // Filter all Female employees aged 21 and above
                 .filter(e -> e.age >= 21).forEach(System.out::println);
         Instant end = Instant.now();
@@ -77,7 +86,7 @@ public class L7Q1 {
         start = Instant.now();
         Employees.stream()
                 // Filter all employees aged 21 and above
-                .filter(e -> e.age >= 21).filter(e -> e.gender.startsWith("F"))
+                .filter(e -> e.age >= 21).filter(e -> e.gender.equalsIgnoreCase("F"))
                 // Filter all Female employees aged 21 and above
                 .forEach(System.out::println);
         end = Instant.now();
