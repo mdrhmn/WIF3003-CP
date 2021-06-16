@@ -1,4 +1,3 @@
-package fsktm.wif3003.threadPool;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

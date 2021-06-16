@@ -38,37 +38,46 @@ public class L8Q1 {
 
         @Override
         protected BigInteger compute() {
+            // If list is small enough, calculate the factorials
             if (integerList.size() <= SEQUENTIAL_THRESHOLD) {
                 return sumFactorials();
             } else {
+                // Split list in half
                 int middle = integerList.size() / 2;
+                // First half/left
                 List<BigInteger> newList = integerList.subList(middle, integerList.size());
+                // Second half/right
                 integerList = integerList.subList(0, middle);
-                FactorialTask task = new FactorialTask(newList);
+
                 // System.out.println("Sublist 1: " + newList);
                 // System.out.println("Sublist 2: " + integerList);
+
+                // Create new subtask from splitted list
+                FactorialTask subtask = new FactorialTask(newList);
                 
-                task.fork();
+                // Submits task to the pool to run it asynchronously
+                subtask.fork();
+
+                // Add the value of sums together
                 BigInteger thisSum = this.compute();
-                BigInteger thatSum = task.join();
+                BigInteger thatSum = subtask.join();
                 return thisSum.add(thatSum);
             }
         }
 
+        // Calculate sum of factorials
         private BigInteger sumFactorials() {
             BigInteger sum = BigInteger.ZERO;
             for (BigInteger i : integerList) {
-                System.out.printf("%s! = %s, thread = %s %n", i, CalcUtil.calculateFactorial(i),
+                System.out.printf("%s! = %s, thread = %s %n", i, calculateFactorial(i),
                         Thread.currentThread().getName());
-                sum = sum.add(CalcUtil.calculateFactorial(i));
+                sum = sum.add(calculateFactorial(i));
             }
             return sum;
         }
-    }
 
-    private static class CalcUtil {
-
-        public static BigInteger calculateFactorial(BigInteger input) {
+        // Calculate the factorials
+        private BigInteger calculateFactorial(BigInteger input) {
             BigInteger factorial = BigInteger.ONE;
             for (BigInteger i = BigInteger.ONE; i.compareTo(input) <= 0; i = i.add(BigInteger.ONE)) {
                 factorial = factorial.multiply(i);

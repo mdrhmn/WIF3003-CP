@@ -1,4 +1,4 @@
-
+package SYNCHRONIZATION;
 class Update {
 
     static int sum = 0;

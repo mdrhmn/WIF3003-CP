@@ -1,4 +1,4 @@
-package fsktm.wif3003.lock;
+package SEMAPHORE;
 
 // java program to demonstrate  
 // use of semaphores Locks 
