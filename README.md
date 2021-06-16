@@ -14,3 +14,5 @@ A repository containing my solutions for WIF3003 Concurrent Programming speciali
 - LAB 4: Thread Locks and Notifications #2 (StackAccess)
 - LAB 5: Thread Locks and Pools
 - LAB 6: Futures and Callables
+- LAB 7: Java Stream
+- LAB 8: Fork/Join Framework (RecursiveTask & RecursiveAction)
