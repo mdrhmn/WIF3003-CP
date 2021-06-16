@@ -30,7 +30,6 @@ class SharedCounter implements Runnable {
             // used sleep for context switching
             Thread.sleep(10);
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         c++;
@@ -58,7 +57,6 @@ class SharedCounter implements Runnable {
             // releasing permit
             s.release();
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

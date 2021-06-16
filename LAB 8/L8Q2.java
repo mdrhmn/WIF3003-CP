@@ -20,7 +20,7 @@ public class L8Q2 {
         List<BigInteger> list = new ArrayList<>();
 
         // Create list of all numbers to calculate their factorials of
-        for (int i = 1; i < 20; i++) {
+        for (int i = 1; i <= 20; i++) {
             list.add(new BigInteger(Integer.toString(i)));
         }
 
@@ -79,9 +79,9 @@ public class L8Q2 {
         // Calculate sum of factorials
         private BigInteger sumFactorials() {
             for (BigInteger i : integerList) {
-                System.out.printf("%s! = %s, thread = %s %n", i, calculateFactorial(i),
-                        Thread.currentThread().getName());
                 sum = sum.add(calculateFactorial(i));
+                System.out.printf("%s! = %s, sum = %s, thread = %s \n", i, calculateFactorial(i), sum,
+                        Thread.currentThread().getName());
             }
             return sum;
         }
