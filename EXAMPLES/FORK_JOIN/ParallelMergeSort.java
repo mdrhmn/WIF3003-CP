@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package parallel;
+package FORK_JOIN;
 
 import java.util.concurrent.RecursiveAction;
 import java.util.concurrent.ForkJoinPool;

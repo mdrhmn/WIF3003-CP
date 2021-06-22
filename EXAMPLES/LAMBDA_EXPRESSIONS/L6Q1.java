@@ -1,3 +1,4 @@
+package LAMBDA_EXPRESSIONS;
 /*
  * Create a functional interface called MathOperation which has an abstract
  * method operation. Operation receives two arguments of int and returns an int.

@@ -1,3 +1,4 @@
+package WAIT_NOTIFY;
 class Customer {
     int amount = 10000;
 

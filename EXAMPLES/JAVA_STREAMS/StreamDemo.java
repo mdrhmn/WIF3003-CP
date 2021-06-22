@@ -1,9 +1,10 @@
+package JAVA_STREAMS;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package WIF3003Sem21920;
+
 
 import java.util.Arrays;
 import java.util.List;
@@ -64,7 +65,7 @@ public class StreamDemo {
                     System.out.println("filter: " + s);
                     return true;
                 });
-                */
+        */
         /*//intermediate function with terminal function
         Stream.of("d2", "a2", "b1", "b3", "c")
                 .filter(s -> {

@@ -1,3 +1,4 @@
+package LAMBDA_EXPRESSIONS;
 /* 
  * java.util.function.Predicate is a functional interface that can be used as 
  * assignment target for lambda expression. It represents an operation that 
